@@ -170,7 +170,7 @@
     <div>
       <span class="tag">Ajánlatkérés</span>
       <h2>Kérj gyors előzetes árat</h2>
-      <p>Töltsd ki az adatokat. A gomb megnyomásakor a telefonod vagy géped levelezője megnyílik egy előre kitöltött üzenettel.</p>
+      <p>Töltsd ki az adatokat, az ajánlatkérés közvetlenül e-mailben érkezik meg hozzánk.</p>
       <ul class="checks">
         <li>Felvételi és lerakási cím</li>
         <li>Mit kell szállítani</li>
@@ -178,15 +178,44 @@
         <li>Kell-e utánfutó vagy 2 fős rakodás</li>
       </ul>
     </div>
-    <form id="quoteForm" class="form-card">
-      <label>Név<input id="name" type="text" required></label>
-      <label>Telefonszám<input id="phone" type="tel" required></label>
-      <label>Felvételi cím<input id="from" type="text" required></label>
-      <label>Lerakási cím<input id="to" type="text" required></label>
-      <label>Mit kell szállítani?<textarea id="item" rows="4" required></textarea></label>
-      <label>Egyéb információ<textarea id="extra" rows="3" placeholder="Emelet, lift, időpont, utánfutó..."></textarea></label>
+
+    <form class="form-card" action="https://formsubmit.co/czinke.attila.ada@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Új fuvarozási árajánlatkérés">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="">
+      <input type="text" name="_honey" style="display:none">
+
+      <label>Név
+        <input type="text" name="Név" required>
+      </label>
+
+      <label>Telefonszám
+        <input type="tel" name="Telefonszám" required>
+      </label>
+
+      <label>E-mail-cím
+        <input type="email" name="email" required>
+      </label>
+
+      <label>Felvételi cím
+        <input type="text" name="Felvételi cím" required>
+      </label>
+
+      <label>Lerakási cím
+        <input type="text" name="Lerakási cím" required>
+      </label>
+
+      <label>Mit kell szállítani?
+        <textarea name="Szállítandó áru" rows="4" required></textarea>
+      </label>
+
+      <label>Egyéb információ
+        <textarea name="Egyéb információ" rows="3" placeholder="Emelet, lift, időpont, utánfutó, rakodás..."></textarea>
+      </label>
+
       <button class="button full" type="submit">Ajánlatkérés elküldése</button>
-      <p class="form-note">Az űrlap jelenleg e-mailes üzenetet készít elő.</p>
+      <p class="form-note">Az első próbaküldés után a FormSubmit aktiváló e-mailt küld a megadott címre.</p>
     </form>
   </div>
 </section>
@@ -203,6 +232,8 @@
       <a href="tel:+36501267124">+36 50 126 7124</a>
       <small>Név</small>
       <strong>Czinke Attila</strong>
+      <small>E-mail</small>
+      <a href="mailto:czinke.attila.ada@gmail.com">czinke.attila.ada@gmail.com</a>
       <small>Működési terület</small>
       <strong>Nyíregyháza és országosan</strong>
       <a class="button full" href="tel:+36501267124">Hívás most</a>
