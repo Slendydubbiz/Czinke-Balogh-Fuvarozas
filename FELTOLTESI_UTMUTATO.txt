@@ -1,0 +1,35 @@
+CZINKE-BALOGH FUVAROZÁS – TELJES WEBOLDAL
+
+FELTÖLTÉS GITHUBRA
+1. Csomagold ki ezt a ZIP fájlt.
+2. A GitHub repositoryban kattints: Add file > Upload files.
+3. Jelöld ki az összes fájlt a kicsomagolt mappából.
+4. Töltsd fel őket a repository gyökerébe.
+5. Kattints: Commit changes.
+6. Várj 1-3 percet, majd frissítsd a weboldalt.
+
+GITHUB PAGES CÍM
+https://slendydubbiz.github.io/Czinke-Balogh-Fuvarozas/
+
+FORMSubmit
+- Címzett: czinke.attila.ada@gmail.com
+- Köszönőoldal: https://slendydubbiz.github.io/Czinke-Balogh-Fuvarozas/koszonjuk.html
+- Az automatikus válasz az ügyfél által megadott e-mail-címre érkezik.
+- Az aktiválás már megtörtént, ezért újabb megerősítés általában nem szükséges.
+
+A CSOMAG TARTALMA
+- index.html
+- styles.css
+- script.js
+- koszonjuk.html
+- adatkezeles.html
+- aszf.html
+- 404.html
+- favicon.svg
+- social-preview.svg
+- robots.txt
+- sitemap.xml
+
+FONTOS
+Az adatkezelési és általános feltételek oldalak jelenleg mintaszöveget tartalmaznak.
+A saját domain beállítása után a canonical, sitemap és FormSubmit _next címeket majd a saját domainre frissítjük.

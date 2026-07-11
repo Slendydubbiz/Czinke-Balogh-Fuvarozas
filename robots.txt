@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://slendydubbiz.github.io/Czinke-Balogh-Fuvarozas/sitemap.xml
