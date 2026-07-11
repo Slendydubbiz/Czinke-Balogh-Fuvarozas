@@ -44,3 +44,47 @@ if (cookieAccept) {
     cookieBanner.classList.add('hidden');
   });
 }
+
+
+const quoteForm = document.getElementById('quoteForm');
+
+if (quoteForm) {
+  quoteForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const status = document.getElementById('formStatus');
+    const submitButton = document.getElementById('submitButton');
+    const formData = new FormData(quoteForm);
+
+    status.className = 'form-status loading';
+    status.textContent = 'Az ajánlatkérés küldése folyamatban van…';
+    submitButton.disabled = true;
+    submitButton.textContent = 'Küldés…';
+
+    try {
+      const response = await fetch(quoteForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || result.success === 'false' || result.success === false) {
+        throw new Error(result.message || 'Az elküldés nem sikerült.');
+      }
+
+      quoteForm.reset();
+      window.location.href = 'koszonjuk.html';
+    } catch (error) {
+      status.className = 'form-status error';
+      status.textContent =
+        'Az üzenetet most nem sikerült elküldeni. Kérjük, próbálja újra, vagy hívjon minket a +36 50 126 7124 számon.';
+      submitButton.disabled = false;
+      submitButton.textContent = 'Ajánlatkérés elküldése';
+      console.error(error);
+    }
+  });
+}

@@ -274,10 +274,9 @@
           </ul>
         </div>
 
-        <form class="form-card reveal" action="https://formsubmit.co/czinke.attila.ada@gmail.com" method="POST">
+        <form id="quoteForm" class="form-card reveal" action="https://formsubmit.co/ajax/czinke.attila.ada@gmail.com" method="POST">
           <input type="hidden" name="_subject" value="Új fuvarozási árajánlatkérés">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_next" value="https://slendydubbiz.github.io/Czinke-Balogh-Fuvarozas/koszonjuk.html">
           <input type="hidden" name="_url" value="https://slendydubbiz.github.io/Czinke-Balogh-Fuvarozas/">
           <input type="hidden" name="_autoresponse" value="Köszönjük a megkeresését! Ajánlatkérése sikeresen megérkezett hozzánk. Hamarosan felvesszük Önnel a kapcsolatot a megadott elérhetőségen. Üdvözlettel: Czinke-Balogh Fuvarozás">
           <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off">
@@ -317,7 +316,8 @@
             <span>Elfogadom, hogy az ajánlatkéréshez megadott adatokat kapcsolatfelvétel céljából kezeljék.</span>
           </label>
 
-          <button class="button full" type="submit">Ajánlatkérés elküldése</button>
+          <div id="formStatus" class="form-status" aria-live="polite"></div>
+          <button id="submitButton" class="button full" type="submit">Ajánlatkérés elküldése</button>
           <p class="form-note">Az elküldés után visszaigazoló e-mailt kap, és sikeres elküldést jelző oldal jelenik meg.</p>
         </form>
       </div>
