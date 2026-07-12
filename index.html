@@ -67,7 +67,7 @@
     <section id="kezdolap" class="hero">
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <span class="tag">Nyíregyháza és országosan</span>
+          <span class="tag">Országos fuvarozás • Nyíregyházi bázis</span>
           <h1>Fuvarozás, költöztetés és anyagszállítás egy helyen</h1>
           <p class="lead">Bútor, háztartási gép, építőanyag, parketta, ajtó, KPE cső, öntözési anyag és egyedi fuvarfeladatok szállítása.</p>
 
@@ -119,7 +119,7 @@
         <div class="section-head reveal">
           <span class="tag">Szolgáltatások</span>
           <h2>Nem csak költöztetés</h2>
-          <p>Magánszemélyeknek, kivitelezőknek és vállalkozásoknak.</p>
+          <p>Magánszemélyeknek, kivitelezőknek és vállalkozásoknak az ország egész területén.</p>
         </div>
 
         <div class="cards">
@@ -300,69 +300,212 @@
     </section>
 
     <section id="ajanlat" class="section quote-section">
-      <div class="container split">
-        <div class="reveal">
-          <span class="tag">Ajánlatkérés</span>
-          <h2>Kérj gyors előzetes árat</h2>
-          <p>Töltsd ki az adatokat, az ajánlatkérés közvetlenül e-mailben érkezik meg hozzánk.</p>
-          <ul class="checks">
-            <li>Felvételi és lerakási cím</li>
-            <li>Mit kell szállítani</li>
-            <li>Van-e lift vagy lépcső</li>
-            <li>Kell-e utánfutó vagy 2 fős rakodás</li>
-          </ul>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Automatikus útvonal- és árkalkulátor</span>
+      <h2>Adja meg a fuvar állomásait</h2>
+      <p>
+        Az indulás és a visszaérkezés mindig Nyíregyháza. A rendszer a megadott címeket
+        sorrendben érinti, kiszámolja a teljes közúti távolságot, majd 250 Ft/km díjjal
+        előzetes árat készít.
+      </p>
+    </div>
+
+    <div class="calculator-layout">
+      <div class="route-calculator reveal">
+        <div class="fixed-stop">
+          <span class="stop-index">A</span>
+          <div>
+            <small>Fix indulási pont</small>
+            <strong>Nyíregyháza, Magyarország</strong>
+          </div>
+          <span class="lock-label">🔒 Fix</span>
         </div>
 
-        <form id="quoteForm" class="form-card reveal" action="https://formsubmit.co/ajax/czinke.attila.ada@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="Új fuvarozási árajánlatkérés">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_url" value="https://czinke-balogh-fuvarozas.hu/">
-          <input type="hidden" name="_autoresponse" value="Köszönjük a megkeresését! Ajánlatkérése sikeresen megérkezett hozzánk. Hamarosan felvesszük Önnel a kapcsolatot a megadott elérhetőségen. Üdvözlettel: Czinke-Balogh Fuvarozás">
-          <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off">
+        <div id="routeStops" class="route-stops">
+          <div class="route-stop" data-stop>
+            <span class="stop-index">1</span>
+            <label>
+              Első felvételi vagy lerakási cím
+              <input type="text" class="route-address" placeholder="Például: Debrecen, Piac utca 1." autocomplete="street-address">
+            </label>
+            <button type="button" class="remove-stop" aria-label="Cím eltávolítása" title="Cím eltávolítása">×</button>
+          </div>
+
+          <div class="route-stop" data-stop>
+            <span class="stop-index">2</span>
+            <label>
+              Következő cím
+              <input type="text" class="route-address" placeholder="Például: Budapest, Váci út 10." autocomplete="street-address">
+            </label>
+            <button type="button" class="remove-stop" aria-label="Cím eltávolítása" title="Cím eltávolítása">×</button>
+          </div>
+        </div>
+
+        <button id="addStop" class="add-stop-button" type="button">＋ Új köztes cím hozzáadása</button>
+
+        <div class="fixed-stop return-stop">
+          <span class="stop-index">B</span>
+          <div>
+            <small>Fix visszaérkezési pont</small>
+            <strong>Nyíregyháza, Magyarország</strong>
+          </div>
+          <span class="lock-label">🔒 Fix</span>
+        </div>
+
+        <div class="cargo-options">
+          <h3>Rakomány és rakodási adatok</h3>
 
           <div class="form-row">
-            <label>Név
-              <input type="text" name="Név" autocomplete="name" required>
+            <label>Rakomány típusa
+              <select id="cargoType">
+                <option value="Bútor">Bútor</option>
+                <option value="Háztartási gép">Háztartási gép</option>
+                <option value="Építőanyag">Építőanyag</option>
+                <option value="Ajtó vagy ablak">Ajtó vagy ablak</option>
+                <option value="Öntözési anyag / KPE cső">Öntözési anyag / KPE cső</option>
+                <option value="Kerti gép">Kerti gép</option>
+                <option value="Egyéb">Egyéb</option>
+              </select>
             </label>
-            <label>Telefonszám
-              <input type="tel" name="Telefonszám" autocomplete="tel" required>
+
+            <label>Rakodás
+              <select id="loadingHelp">
+                <option value="2 fős rakodás szükséges">2 fős rakodás szükséges</option>
+                <option value="Rakodást nem kérek">Rakodást nem kérek</option>
+                <option value="Még nem tudom">Még nem tudom</option>
+              </select>
             </label>
           </div>
 
-          <label>E-mail-cím
-            <input type="email" name="email" autocomplete="email" required>
-          </label>
-
           <div class="form-row">
-            <label>Felvételi cím
-              <input type="text" name="Felvételi cím" required>
+            <label>Emelet lift nélkül
+              <input id="floorCount" type="number" min="0" max="20" value="0">
             </label>
-            <label>Lerakási cím
-              <input type="text" name="Lerakási cím" required>
+
+            <label>Nagy bútorok száma az emeletdíjhoz
+              <input id="largeItemCount" type="number" min="0" max="30" value="0">
             </label>
           </div>
 
-          <label>Mit kell szállítani?
-            <textarea name="Szállítandó áru" rows="4" required></textarea>
-          </label>
+          <div class="option-grid">
+            <label class="option-card">
+              <input id="hasLift" type="checkbox">
+              <span><strong>Van használható lift</strong><small>Lift esetén nem számolunk emeletdíjat.</small></span>
+            </label>
 
-          <label>Egyéb információ
-            <textarea name="Egyéb információ" rows="3" placeholder="Emelet, lift, időpont, utánfutó, rakodás..."></textarea>
-          </label>
+            <label class="option-card">
+              <input id="needsTrailer" type="checkbox">
+              <span><strong>Utánfutó szükséges</strong><small>Előzetes felár: 10 000 Ft.</small></span>
+            </label>
 
-          <label class="consent">
-            <input type="checkbox" required>
-            <span>Elfogadom, hogy az ajánlatkéréshez megadott adatokat kapcsolatfelvétel céljából kezeljék.</span>
-          </label>
+            <label class="option-card">
+              <input id="urgentJob" type="checkbox">
+              <span><strong>Sürgős, 24 órán belüli fuvar</strong><small>Előzetes felár: +20%.</small></span>
+            </label>
+          </div>
+        </div>
 
-          <div id="formStatus" class="form-status" aria-live="polite"></div>
-          <button id="submitButton" class="button full" type="submit">Ajánlatkérés elküldése</button>
-          <p class="form-note">Az elküldés után visszaigazoló e-mailt kap, és sikeres elküldést jelző oldal jelenik meg.</p>
-        </form>
+        <button id="calculateRoute" class="button full calculate-button" type="button">
+          Útvonal és becsült ár kiszámítása
+        </button>
+
+        <div id="routeStatus" class="calculator-status" aria-live="polite"></div>
+
+        <div id="routeResult" class="route-result" hidden>
+          <div class="result-summary">
+            <div><small>Teljes út</small><strong id="totalDistance">–</strong></div>
+            <div><small>Becsült menetidő</small><strong id="totalDuration">–</strong></div>
+            <div class="price-result"><small>Előzetes becsült díj</small><strong id="estimatedPrice">–</strong></div>
+          </div>
+
+          <div id="routeLegs" class="route-legs"></div>
+
+          <div class="calculation-details">
+            <div><span>Kilométerdíj</span><strong>250 Ft/km</strong></div>
+            <div><span>Minimum fuvardíj</span><strong>12 000 Ft</strong></div>
+            <div id="floorFeeRow"><span>Emeletdíj</span><strong id="floorFee">0 Ft</strong></div>
+            <div id="trailerFeeRow"><span>Utánfutó</span><strong id="trailerFee">0 Ft</strong></div>
+            <div id="urgentFeeRow"><span>Sürgősségi felár</span><strong id="urgentFee">0 Ft</strong></div>
+          </div>
+
+          <p class="estimate-warning">
+            Ez automatikus, előzetes becslés. A végleges díjat a rakomány pontos mérete,
+            tömege, a megközelíthetőség, várakozás és más helyszíni körülmények módosíthatják.
+          </p>
+        </div>
       </div>
-    </section>
 
-    <section class="section final-cta">
+      <form id="quoteForm" class="form-card reveal" action="https://formsubmit.co/ajax/czinke.attila.ada@gmail.com" method="POST">
+        <span class="tag">Ajánlatkérés elküldése</span>
+        <h3>Kapcsolattartási adatok</h3>
+
+        <input type="hidden" name="_subject" value="Új fuvarozási árajánlatkérés és útvonal-kalkuláció">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_autoresponse" value="Köszönjük a megkeresését! Ajánlatkérése sikeresen megérkezett hozzánk. Hamarosan felvesszük Önnel a kapcsolatot. Üdvözlettel: Czinke-Balogh Fuvarozás">
+        <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off">
+
+        <input id="routeSummaryField" type="hidden" name="Útvonal">
+        <input id="routeLegsField" type="hidden" name="Útszakaszok">
+        <input id="distanceField" type="hidden" name="Teljes távolság">
+        <input id="durationField" type="hidden" name="Becsült menetidő">
+        <input id="priceField" type="hidden" name="Automatikusan becsült díj">
+        <input id="calculationField" type="hidden" name="Árkalkuláció részletei">
+        <input id="cargoField" type="hidden" name="Rakomány és rakodás">
+
+        <div class="form-row">
+          <label>Név
+            <input type="text" name="Név" autocomplete="name" required>
+          </label>
+          <label>Telefonszám
+            <input type="tel" name="Telefonszám" autocomplete="tel" required>
+          </label>
+        </div>
+
+        <label>E-mail-cím
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+
+        <label>Szállítandó áru részletes leírása
+          <textarea name="Szállítandó áru részletes leírása" rows="5" placeholder="Darabszám, hozzávetőleges méret, súly, szétszerelhető-e..." required></textarea>
+        </label>
+
+        <label>Kívánt időpont
+          <input type="text" name="Kívánt időpont" placeholder="Például: 2026. július 20. délelőtt">
+        </label>
+
+        <label>Egyéb információ
+          <textarea name="Egyéb információ" rows="4" placeholder="Parkolás, szűk lépcsőház, nehéz megközelítés, várakozás..."></textarea>
+        </label>
+
+        <div id="calculationRequired" class="calculation-required">
+          Az űrlap elküldése előtt számítsa ki az útvonalat és az előzetes díjat.
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" required>
+          <span>Elfogadom, hogy a megadott adatokat kapcsolatfelvétel és árajánlat készítése céljából kezeljék.</span>
+        </label>
+
+        <div id="formStatus" class="form-status" aria-live="polite"></div>
+        <button id="submitButton" class="button full" type="submit" disabled>Ajánlatkérés elküldése</button>
+
+        <p class="form-note">
+          A kalkuláció és az összes megadott adat közvetlenül e-mailben érkezik meg hozzánk.
+        </p>
+      </form>
+    </div>
+
+    <div class="free-map-note reveal">
+      <strong>Ingyenes útvonaltervezés:</strong>
+      a kalkulátor OpenStreetMap-alapú nyílt szolgáltatásokat használ. Induló, alacsony
+      forgalmú weboldalhoz megfelelő, de átmeneti szolgáltatáskiesés előfordulhat.
+      Ilyenkor telefonon is kérhető ajánlat.
+    </div>
+  </div>
+</section>
+
+<section class="section final-cta">
   <div class="container final-cta-box reveal">
     <div>
       <span class="tag">Gyors fuvarra van szüksége?</span>
@@ -392,7 +535,7 @@
           <small>E-mail</small>
           <a href="mailto:czinke.attila.ada@gmail.com">czinke.attila.ada@gmail.com</a>
           <small>Működési terület</small>
-          <strong>Nyíregyháza és országosan</strong>
+          <strong>Országos fuvarozás • Nyíregyházi bázis</strong>
           <a class="button full" href="tel:+36501267124">Hívás most</a>
         </div>
       </div>
