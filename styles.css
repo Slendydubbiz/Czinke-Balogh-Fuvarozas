@@ -662,3 +662,71 @@ body{
   .result-summary div{border-right:0;border-bottom:1px solid rgba(255,255,255,.12)}
   .route-leg,.calculation-details div{flex-direction:column;gap:2px}
 }
+
+
+/* Fixed-price selectable cargo items */
+.item-extras{
+  margin-top:24px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+.item-extras h3{margin-bottom:6px}
+.item-extras-help{
+  margin-top:0;
+  font-size:.9rem;
+}
+.extra-item-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:14px;
+}
+.extra-item-card{
+  display:grid;
+  grid-template-columns:auto 1fr 72px;
+  gap:11px;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:13px;
+  background:#fff;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.extra-item-card:hover{
+  border-color:rgba(255,176,0,.65);
+  background:#fffaf0;
+}
+.extra-item-card:has(.priced-item:checked){
+  border-color:var(--accent);
+  background:#fff8e6;
+  box-shadow:0 8px 24px rgba(255,176,0,.12);
+}
+.extra-item-card .priced-item{
+  width:19px;
+  height:19px;
+  margin:0;
+}
+.extra-item-main strong,
+.extra-item-main small{
+  display:block;
+}
+.extra-item-main small{
+  color:var(--muted);
+  margin-top:2px;
+}
+.extra-item-card .item-quantity{
+  width:100%;
+  margin:0;
+  padding:9px 7px;
+  text-align:center;
+}
+.service-area{
+  padding-top:58px;
+  padding-bottom:30px;
+  background:#fff;
+}
+@media(max-width:620px){
+  .extra-item-grid{grid-template-columns:1fr}
+  .extra-item-card{grid-template-columns:auto 1fr 68px}
+}

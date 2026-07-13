@@ -52,7 +52,7 @@ if (cookieAccept) {
 /* Fuvar route calculator */
 const BASE_ADDRESS = 'Nyíregyháza, Magyarország';
 const BASE_COORDS = { lat: 47.9531, lon: 21.7271 };
-const PRICE_PER_KM = 250;
+const PRICE_PER_KM = 230;
 const MINIMUM_PRICE = 12000;
 const TRAILER_FEE = 10000;
 const FLOOR_FEE_PER_FLOOR_PER_ITEM = 1500;
@@ -158,6 +158,11 @@ if (routeStops) {
     if (element) element.addEventListener('change', markCalculationDirty);
   });
 
+document.querySelectorAll('.priced-item, .item-quantity').forEach(element => {
+  element.addEventListener('change', markCalculationDirty);
+  element.addEventListener('input', markCalculationDirty);
+});
+
 async function geocodeAddress(address) {
   const params = new URLSearchParams({
     q: address,
@@ -184,6 +189,26 @@ async function geocodeAddress(address) {
     lon: Number(results[0].lon),
     displayName: results[0].display_name
   };
+}
+
+
+function getSelectedPricedItems() {
+  return [...document.querySelectorAll('.extra-item-card')].flatMap(card => {
+    const checkbox = card.querySelector('.priced-item');
+    const quantityInput = card.querySelector('.item-quantity');
+
+    if (!checkbox?.checked) return [];
+
+    const quantity = Math.max(1, Number(quantityInput?.value) || 1);
+    const unitPrice = Number(checkbox.dataset.price) || 0;
+
+    return [{
+      name: checkbox.dataset.name || 'Tétel',
+      quantity,
+      unitPrice,
+      total: quantity * unitPrice
+    }];
+  });
 }
 
 async function calculateRoute() {
@@ -247,7 +272,9 @@ async function calculateRoute() {
 
     const floorFee = hasLift ? 0 : floorCount * largeItemCount * FLOOR_FEE_PER_FLOOR_PER_ITEM;
     const trailerFee = needsTrailer ? TRAILER_FEE : 0;
-    const subtotal = baseDistancePrice + floorFee + trailerFee;
+    const selectedItems = getSelectedPricedItems();
+    const itemExtrasFee = selectedItems.reduce((sum, item) => sum + item.total, 0);
+    const subtotal = baseDistancePrice + floorFee + trailerFee + itemExtrasFee;
     const urgentFee = urgentJob ? subtotal * URGENT_MULTIPLIER : 0;
     const estimatedPrice = subtotal + urgentFee;
 
@@ -267,6 +294,8 @@ async function calculateRoute() {
       baseDistancePrice,
       floorFee,
       trailerFee,
+      itemExtrasFee,
+      selectedItems,
       urgentFee,
       estimatedPrice
     });
@@ -279,6 +308,8 @@ async function calculateRoute() {
       baseDistancePrice,
       floorFee,
       trailerFee,
+      itemExtrasFee,
+      selectedItems,
       urgentFee,
       estimatedPrice
     });
@@ -310,15 +341,25 @@ function renderRouteResult(data) {
   document.getElementById('estimatedPrice').textContent = formatForint(data.estimatedPrice);
   document.getElementById('floorFee').textContent = formatForint(data.floorFee);
   document.getElementById('trailerFee').textContent = formatForint(data.trailerFee);
+  document.getElementById('itemExtrasFee').textContent = formatForint(data.itemExtrasFee);
   document.getElementById('urgentFee').textContent = formatForint(data.urgentFee);
 
   const legsContainer = document.getElementById('routeLegs');
+  const selectedItemsHtml = data.selectedItems.length
+    ? `<h3>Kiválasztott tárgyak</h3>${data.selectedItems.map(item => `
+        <div class="route-leg">
+          <span>${escapeHtml(item.name)} × ${item.quantity}</span>
+          <strong>${formatForint(item.total)}</strong>
+        </div>
+      `).join('')}`
+    : '';
+
   legsContainer.innerHTML = '<h3>Útszakaszok</h3>' + data.legDescriptions.map(leg => `
     <div class="route-leg">
       <span>${escapeHtml(leg.from)} → ${escapeHtml(leg.to)}</span>
       <strong>${leg.km} km • ${formatDuration(leg.seconds)}</strong>
     </div>
-  `).join('');
+  `).join('') + selectedItemsHtml;
 
   routeResult.hidden = false;
   routeResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -332,6 +373,11 @@ function fillHiddenFields(data) {
   const hasLift = document.getElementById('hasLift').checked ? 'Igen' : 'Nem';
   const needsTrailer = document.getElementById('needsTrailer').checked ? 'Igen' : 'Nem';
   const urgentJob = document.getElementById('urgentJob').checked ? 'Igen' : 'Nem';
+  const selectedItemsText = data.selectedItems.length
+    ? data.selectedItems.map(item =>
+        `${item.name}: ${item.quantity} db × ${formatForint(item.unitPrice)} = ${formatForint(item.total)}`
+      ).join('; ')
+    : 'Nincs kiválasztott fix feláras tárgy';
 
   const fullRoute = [BASE_ADDRESS, ...data.enteredAddresses, BASE_ADDRESS].join(' → ');
   const legsText = data.legDescriptions
@@ -347,12 +393,14 @@ function fillHiddenFields(data) {
     `Távolsági díj: ${formatForint(data.baseDistancePrice)}; ` +
     `Emeletdíj: ${formatForint(data.floorFee)}; ` +
     `Utánfutó: ${formatForint(data.trailerFee)}; ` +
+    `Tárgyfelárak: ${formatForint(data.itemExtrasFee)} (${selectedItemsText}); ` +
     `Sürgősségi felár: ${formatForint(data.urgentFee)}; ` +
     `Kilométerdíj: ${PRICE_PER_KM} Ft/km`;
   document.getElementById('cargoField').value =
     `Típus: ${cargoType}; Rakodás: ${loadingHelp}; ` +
     `Emelet: ${floorCount}; Nagy bútorok: ${largeItemCount}; ` +
-    `Lift: ${hasLift}; Utánfutó: ${needsTrailer}; Sürgős: ${urgentJob}`;
+    `Lift: ${hasLift}; Utánfutó: ${needsTrailer}; Sürgős: ${urgentJob}; ` +
+    `Kiválasztott tárgyak: ${selectedItemsText}`;
 }
 
 function escapeHtml(value) {
