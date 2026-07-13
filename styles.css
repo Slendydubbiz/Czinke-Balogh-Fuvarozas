@@ -730,3 +730,60 @@ body{
   .extra-item-grid{grid-template-columns:1fr}
   .extra-item-card{grid-template-columns:auto 1fr 68px}
 }
+
+
+/* Nationwide SEO coverage block */
+.nationwide-coverage{
+  background:#fff;
+}
+.coverage-details{
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+}
+.coverage-details summary{
+  cursor:pointer;
+  padding:20px 22px;
+  font-weight:900;
+  font-size:1.05rem;
+  list-style:none;
+}
+.coverage-details summary::-webkit-details-marker{display:none}
+.coverage-details summary:after{
+  content:"+";
+  float:right;
+  color:#9a6700;
+  font-size:1.35rem;
+}
+.coverage-details[open] summary:after{content:"–"}
+.coverage-content{
+  padding:0 22px 22px;
+  border-top:1px solid var(--line);
+}
+.coverage-content h3{
+  margin-top:22px;
+  margin-bottom:8px;
+}
+.coverage-content p{
+  margin-top:0;
+  line-height:1.8;
+}
+.coverage-note{
+  background:#fff8e6;
+  border:1px solid #fde68a;
+  color:#7c2d12;
+  border-radius:14px;
+  padding:14px 16px;
+}
+
+
+.distance-formula-row{
+  margin:6px -4px;
+  padding:11px 4px !important;
+  border-top:1px dashed #d0d5dd;
+  border-bottom:1px dashed #d0d5dd;
+}
+.distance-formula-row strong{
+  color:#9a6700;
+}

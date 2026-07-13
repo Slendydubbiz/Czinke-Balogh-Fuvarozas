@@ -339,6 +339,8 @@ function renderRouteResult(data) {
   document.getElementById('totalDistance').textContent = `${data.roundedKm} km`;
   document.getElementById('totalDuration').textContent = formatDuration(data.durationSeconds);
   document.getElementById('estimatedPrice').textContent = formatForint(data.estimatedPrice);
+  document.getElementById('distancePriceFormula').textContent =
+    `${data.roundedKm} km × ${PRICE_PER_KM} Ft = ${formatForint(data.baseDistancePrice)}`;
   document.getElementById('floorFee').textContent = formatForint(data.floorFee);
   document.getElementById('trailerFee').textContent = formatForint(data.trailerFee);
   document.getElementById('itemExtrasFee').textContent = formatForint(data.itemExtrasFee);
@@ -390,7 +392,7 @@ function fillHiddenFields(data) {
   document.getElementById('durationField').value = formatDuration(data.durationSeconds);
   document.getElementById('priceField').value = formatForint(data.estimatedPrice);
   document.getElementById('calculationField').value =
-    `Távolsági díj: ${formatForint(data.baseDistancePrice)}; ` +
+    `Távolsági díj: ${data.roundedKm} km × ${PRICE_PER_KM} Ft = ${formatForint(data.baseDistancePrice)}; ` +
     `Emeletdíj: ${formatForint(data.floorFee)}; ` +
     `Utánfutó: ${formatForint(data.trailerFee)}; ` +
     `Tárgyfelárak: ${formatForint(data.itemExtrasFee)} (${selectedItemsText}); ` +
