@@ -455,46 +455,26 @@ if (calculateButton) calculateButton.addEventListener('click', calculateRoute);
 const quoteForm = document.getElementById('quoteForm');
 
 if (quoteForm) {
-  quoteForm.addEventListener('submit', async event => {
-    event.preventDefault();
-
+  quoteForm.addEventListener('submit', event => {
     const status = document.getElementById('formStatus');
 
     if (!calculationCompleted) {
+      event.preventDefault();
       status.className = 'form-status error';
       status.textContent = 'Előbb számítsa ki az útvonalat és az előzetes díjat.';
       return;
     }
 
-    const formData = new FormData(quoteForm);
-    status.className = 'form-status loading';
-    status.textContent = 'Az ajánlatkérés küldése folyamatban van…';
-    submitButton.disabled = true;
-    submitButton.textContent = 'Küldés…';
+    sessionStorage.setItem('cbQuoteSubmitted', 'yes');
 
-    try {
-      const response = await fetch(quoteForm.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
+    if (status) {
+      status.className = 'form-status loading';
+      status.textContent = 'Az ajánlatkérés küldése folyamatban van…';
+    }
 
-      const result = await response.json();
-
-      if (!response.ok || result.success === 'false' || result.success === false) {
-        throw new Error(result.message || 'Az elküldés nem sikerült.');
-      }
-
-      sessionStorage.setItem('cbQuoteSubmitted', 'yes');
-      quoteForm.reset();
-      window.location.href = 'koszonjuk.html';
-    } catch (error) {
-      status.className = 'form-status error';
-      status.textContent =
-        'Az üzenetet most nem sikerült elküldeni. Kérjük, próbálja újra, vagy hívjon minket a +36 50 126 7124 számon.';
-      submitButton.disabled = false;
-      submitButton.textContent = 'Ajánlatkérés elküldése';
-      console.error(error);
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Küldés…';
     }
   });
 }
