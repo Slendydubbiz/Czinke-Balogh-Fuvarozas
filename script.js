@@ -1,4 +1,31 @@
 
+/* Google Analytics üzleti események */
+function trackAnalyticsEvent(eventName, parameters = {}) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, parameters);
+  }
+}
+
+document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+  link.addEventListener('click', () => {
+    trackAnalyticsEvent('phone_click', {
+      event_category: 'kapcsolat',
+      link_url: link.href,
+      link_text: (link.textContent || '').trim()
+    });
+  });
+});
+
+document.querySelectorAll('a[href*="minden-ami-öntözés.hu"]').forEach(link => {
+  link.addEventListener('click', () => {
+    trackAnalyticsEvent('irrigation_site_click', {
+      event_category: 'kimenő_kattintás',
+      link_url: link.href
+    });
+  });
+});
+
+
 const menuBtn = document.querySelector('.menu-btn');
 const menu = document.querySelector('.menu');
 
@@ -300,6 +327,14 @@ async function calculateRoute() {
       estimatedPrice
     });
 
+    trackAnalyticsEvent('route_calculation', {
+      event_category: 'árkalkulátor',
+      distance_km: roundedKm,
+      estimated_price: Math.round(estimatedPrice),
+      stops_count: enteredAddresses.length,
+      currency: 'HUF'
+    });
+
     fillHiddenFields({
       enteredAddresses,
       legDescriptions,
@@ -450,6 +485,7 @@ if (quoteForm) {
         throw new Error(result.message || 'Az elküldés nem sikerült.');
       }
 
+      sessionStorage.setItem('cbQuoteSubmitted', 'yes');
       quoteForm.reset();
       window.location.href = 'koszonjuk.html';
     } catch (error) {
