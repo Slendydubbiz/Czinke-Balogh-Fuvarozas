@@ -452,20 +452,20 @@ function escapeHtml(value) {
 
 if (calculateButton) calculateButton.addEventListener('click', calculateRoute);
 
+
 const quoteForm = document.getElementById('quoteForm');
 
 if (quoteForm) {
-  quoteForm.addEventListener('submit', event => {
+  quoteForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
     const status = document.getElementById('formStatus');
 
     if (!calculationCompleted) {
-      event.preventDefault();
       status.className = 'form-status error';
       status.textContent = 'Előbb számítsa ki az útvonalat és az előzetes díjat.';
       return;
     }
-
-    sessionStorage.setItem('cbQuoteSubmitted', 'yes');
 
     if (status) {
       status.className = 'form-status loading';
@@ -475,6 +475,36 @@ if (quoteForm) {
     if (submitButton) {
       submitButton.disabled = true;
       submitButton.textContent = 'Küldés…';
+    }
+
+    try {
+      const formData = new FormData(quoteForm);
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Az ajánlatkérést nem sikerült elküldeni.');
+      }
+
+      sessionStorage.setItem('cbQuoteSubmitted', 'yes');
+      window.location.href = 'koszonjuk.html';
+    } catch (error) {
+      if (status) {
+        status.className = 'form-status error';
+        status.textContent = 'Az üzenetet most nem sikerült elküldeni. Kérjük, próbálja újra, vagy hívjon minket a +36 50 126 7124 számon.';
+      }
+
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Ajánlatkérés elküldése';
+      }
+
+      console.error('Web3Forms hiba:', error);
     }
   });
 }
